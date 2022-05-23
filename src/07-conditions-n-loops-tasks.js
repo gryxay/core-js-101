@@ -270,8 +270,20 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const digits = ccn.toString();
+  let sum = 0;
+  for (let i = 0; i < digits.length; i += 1) {
+    let cardNum = parseInt(digits[i], 10);
+    if ((digits.length - i) % 2 === 0) {
+      cardNum *= 2;
+      if (cardNum > 9) {
+        cardNum -= 9;
+      }
+    }
+    sum += cardNum;
+  }
+  return sum % 10 === 0;
 }
 
 /**
@@ -447,8 +459,18 @@ function getMatrixProduct(m1, m2) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const checkLine = (line) => {
+    const symbol = line[0];
+    const result = line.length === 3 && line.every((el) => el === symbol) ? symbol : undefined;
+    return result;
+  };
+  const horToLine = (filed) => [...filed];
+  const vertToLine = (filed) => filed.map((el, i) => [filed[0][i], filed[1][i], filed[2][i]]);
+  const diagToLine = (p) => [[p[0][0], p[1][1], p[2][2]], [p[0][2], p[1][1], p[2][0]]];
+  const allLines = [...horToLine(position), ...vertToLine(position), ...diagToLine(position)];
+  /* eslint-disable-next-line */
+  return allLines.reduce((acc, el) => (acc ? acc : checkLine(el) ? checkLine(el) : acc), undefined);
 }
 
 
